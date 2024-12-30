@@ -5,13 +5,13 @@
 <h1 align="center">SuperTell</h1>
 
 <p align="center">
-  <a href="https://t.me/SuperTellPrediction_bot/SuperTell" style="color: #a77dff">Platform</a> | <a href="https://www.figma.com/deck/7RPpVNO2JzgIq2SCmktkNN" style="color: #a77dff">Pitchdeck</a> | <a href="" style="color: #a77dff">Demo Video</a>
+  <a href="https://t.me/SuperTellPrediction_bot/SuperTell" style="color: #a77dff">Platform</a> | <a href="https://www.figma.com/deck/7RPpVNO2JzgIq2SCmktkNN" style="color: #a77dff">Pitchdeck</a> 
 </p>
 
-<p align="center">Telegram Mini App <code>Prediction Market</code>.</p>
+<p align="center"> <code>Price based Prediction Market</code></p>
 
 <p align="center">
-  <a href="" style="color: #a77dff">NEO Contract</a> | <a href="" style="color: #a77dff">Prediction Contract</a> | <a href="" style="color: #a77dff">Telegram Mini App</a>
+  <a href="" style="color: #a77dff">NEO Contract</a> | <a href="https://xexplorer.neo.org/address/0xBF11e8F7A25458EC8fa16be04dc68d36671D0e0A?tab=txs" style="color: #a77dff">Prediction Contract</a> | <a href="" style="color: #a77dff">Telegram Mini App</a>
 </p>
 
 ## Overview
