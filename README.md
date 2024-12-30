@@ -19,18 +19,20 @@
   <img src="https://github.com/user-attachments/assets/0dee32ce-a672-4c1f-abf4-e2b0ddfa86b6">
 </p>
 
-SuperTell is a Telegram-based prediction market platform on Neo Mainnet. 
+SuperTell is a prediction market platform on Neo Mainnet. 
 It uses Supra Oracle for real-time token prices, allowing users to predict onchain price events and earn rewards. 
 
 Deployed on Neo X Mainnet : 0xBF11e8F7A25458EC8fa16be04dc68d36671D0e0A
 - https://xexplorer.neo.org/address/0xBF11e8F7A25458EC8fa16be04dc68d36671D0e0A?tab=txs
+
+
 
 ## Key Feature
 
 #### **1. Telegram Access**  
 - **Seamless Integration**: SuperTell operates as a mini-app within Telegram for rapid growth and a telegram bot for quant prediction trading.
 - **User-Friendly Interface**: The platform is designed for an intuitive experience, enabling users to easily place predictions, view results, and claim rewards in a few simple steps.  
-- **Broad Accessibility**: Telegram's global reach ensures that SuperTell can be accessed by a wide audience, enhancing user adoption.
+- **Broad Accessibility**: Telegram's global reach ensures that SuperTell can be accessed by a wide audience, enhancing user adoption.Although the telegram dapp is under development, the platform is fully functional and accessible.
 
 #### **2. Real-Time Data Feeds**  
 - **Powered by Supra Oracle**: SuperTell integrates Supra Oracle to provide live, accurate token price data.  
