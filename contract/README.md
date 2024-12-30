@@ -1,67 +1,113 @@
-forge script script/supertell.s.sol:DeploySuperTell \  --rpc-url $RPC_URL \  --private-key $PRIVATE_KEY \  --chain-id $CHAIN_ID \  --broadcast \  --priority-gas-price 21000000000 \  --gas-price 41000000000 \  -vvvvv
-[⠊] Compiling...
-No files changed, compilation skipped
-Traces:
-  [1258213] DeploySuperTell::run()
-    ├─ [0] VM::envUint("PRIVATE_KEY") [staticcall]
-    │   └─ ← [Return] <env var value>
-    ├─ [0] VM::startBroadcast(<pk>)
-    │   └─ ← [Return] 
-    ├─ [1217954] → new SuperTell@0x7eB9c6631E539CCcd4f51eFb051f631797087B19
-    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0xEEed6Df28F1460b6d6cb04f92aa8CbEcBdC3F891)
-    │   ├─ [7548] 0x58e158c74DF7Ad6396C0dcbadc4878faC9e93d57::getSvalue(166) [staticcall]
-    │   │   ├─ [2708] 0x925abc210c5fda44dBD2a5215b445e7d140249f7::getSvalue(166) [delegatecall]
-    │   │   │   └─ ← [Return] 0x0000019416fdb7d0080000019416fdb8b40000000000000888170862c0000000
-    │   │   └─ ← [Return] 0x0000019416fdb7d0080000019416fdb8b40000000000000888170862c0000000
-    │   ├─ emit RoundStarted(epoch: 1, startTime: 1735555149 [1.735e9])
-    │   └─ ← [Return] 5070 bytes of code
-    ├─ [0] console::log("SuperTell deployed at:", SuperTell: [0x7eB9c6631E539CCcd4f51eFb051f631797087B19]) [staticcall]
-    │   └─ ← [Stop] 
-    ├─ [0] VM::stopBroadcast()
-    │   └─ ← [Return] 
-    └─ ← [Stop] 
+SuperTell contract facilitates a prediction market where users bet on whether the BTC/USD price will go up or down during a specified round. It includes treasury fee collection, round resolution, and support for user claims.
+# SuperTell Contract Overview
 
+## Constructor
+### `constructor(address _oracleAddress)`
+- **Description**: Initializes the contract.
+- **Actions**:
+  - Sets the `oracle` address for fetching BTC prices.
+  - Assigns the contract deployer as the owner.
+  - Starts the first prediction round.
 
-Script ran successfully.
+---
 
-== Logs ==
-  SuperTell deployed at: 0x7eB9c6631E539CCcd4f51eFb051f631797087B19
+## Internal Functions
+### `_startNewRound()`
+- **Description**: Starts a new prediction round.
+- **Actions**:
+  - Increments the `currentEpoch`.
+  - Fetches the BTC price from the oracle.
+  - Initializes a new `Round` struct with start and close times.
+  - Emits the `RoundStarted` event.
 
-## Setting up 1 EVM.
-==========================
-Simulated On-chain Traces:
+### `_placeBet(bool isUp, address user, uint256 amount)`
+- **Description**: Places a bet for the current round.
+- **Actions**:
+  - Validates the round's betting window and ensures the user hasn't already bet.
+  - Updates the round's total "up" or "down" bet amounts.
+  - Records the user's bet details.
+  - Emits the `BetPlaced` event.
+  - Resolves the previous round if it's eligible.
 
-  [1217954] → new SuperTell@0x7eB9c6631E539CCcd4f51eFb051f631797087B19
-    ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0xEEed6Df28F1460b6d6cb04f92aa8CbEcBdC3F891)
-    ├─ [7548] 0x58e158c74DF7Ad6396C0dcbadc4878faC9e93d57::getSvalue(166) [staticcall]
-    │   ├─ [2708] 0x925abc210c5fda44dBD2a5215b445e7d140249f7::getSvalue(166) [delegatecall]
-    │   │   └─ ← [Return] 0x0000019416fdb7d0080000019416fdb8b40000000000000888170862c0000000
-    │   └─ ← [Return] 0x0000019416fdb7d0080000019416fdb8b40000000000000888170862c0000000
-    ├─ emit RoundStarted(epoch: 1, startTime: 1735555156 [1.735e9])
-    └─ ← [Return] 5070 bytes of code
+### `_shouldResolveRound(uint256 epoch)`
+- **Description**: Checks if a round should be resolved.
+- **Returns**: `true` if the round's close time and buffer period have passed, and it's unresolved.
 
+### `_resolveRound(uint256 epoch)`
+- **Description**: Resolves the specified round.
+- **Actions**:
+  - Fetches the close price from the oracle.
+  - Marks the round as resolved.
+  - Determines whether "up" or "down" bets won.
+  - Emits the `RoundResolved` event.
+  - Starts a new round if applicable.
 
-==========================
+---
 
-Chain 47763
+## External/Public Functions
+### `betUp(address user, uint256 amount)`
+- **Description**: Places an "up" bet on the current round.
+- **Actions**: Calls `_placeBet` with `isUp = true`.
 
-Estimated gas price: 40.000000001 gwei
+### `betDown(address user, uint256 amount)`
+- **Description**: Places a "down" bet on the current round.
+- **Actions**: Calls `_placeBet` with `isUp = false`.
 
-Estimated total gas used for script: 1772802
+### `claim(uint256 epoch)`
+- **Description**: Claims winnings for a specified round.
+- **Requirements**:
+  - The round must be resolved.
+  - The user must have placed a bet and won.
+- **Actions**:
+  - Calculates the payout after deducting the treasury fee.
+  - Transfers winnings to the user.
+  - Updates the treasury balance.
+  - Emits the `Claimed` event.
 
-Estimated amount required: 0.070912080001772802 ETH
+### `withdrawTreasury()`
+- **Description**: Withdraws the treasury funds.
+- **Requirements**:
+  - Callable only by the owner.
+- **Actions**:
+  - Transfers the treasury amount to the owner.
+  - Resets the treasury balance.
+  - Emits the `TreasuryWithdrawn` event.
 
-==========================
+### `pause()`
+- **Description**: Pauses the contract, disabling actions like betting and claiming.
+- **Requirements**: Callable only by the owner.
 
-##### 47763
-✅  [Success]Hash: 0x4aefca11ea0d21a43ea78ce112dcae216ccc908048c7eb5bba328a39cce0ac3e
-Contract Address: 0x7eB9c6631E539CCcd4f51eFb051f631797087B19
-Block: 1090811
-Paid: 0.054562720001364068 ETH (1364068 gas * 40.000000001 gwei)
+### `unpause()`
+- **Description**: Unpauses the contract, re-enabling paused actions.
+- **Requirements**: Callable only by the owner.
 
-✅ Sequence #1 on 47763 | Total Paid: 0.054562720001364068 ETH (1364068 gas * avg 40.000000001 gwei)
-                                                                                                                                    
+---
 
-==========================
+## View/Getter Functions
+### `getCurrentRound()`
+- **Description**: Returns the details of the current prediction round.
 
-ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+### `getUserBet(uint256 epoch, address user)`
+- **Description**: Returns the bet details for a specific user and epoch.
+
+### `getCurrentEpoch()`
+- **Description**: Returns the current epoch number.
+
+### `getUserBetEpochs(address user)`
+- **Description**: Returns a list of epochs in which the user placed bets.
+
+---
+
+## Miscellaneous
+### `receive()`
+- **Description**: Allows the contract to accept ETH directly.
+
+---
+
+## Events
+- **`RoundStarted(uint256 indexed epoch, uint256 startTime)`**: Emitted when a new round starts.
+- **`BetPlaced(uint256 indexed epoch, address indexed user, bool isUp, uint256 amount)`**: Emitted when a user places a bet.
+- **`RoundResolved(uint256 indexed epoch, int256 closePrice, bool upWon)`**: Emitted when a round is resolved.
+- **`Claimed(uint256 indexed epoch, address indexed user, uint256 amount)`**: Emitted when a user claims winnings.
+- **`TreasuryWithdrawn(address indexed owner, uint256 amount)`**: Emitted when the treasury funds are withdrawn.
+
