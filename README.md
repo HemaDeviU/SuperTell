@@ -20,13 +20,15 @@
 </p>
 
 SuperTell is a Telegram-based prediction market platform on Neo Mainnet. 
-It uses Supra Oracle for real-time token prices, allowing users to predict events and earn rewards. 
-Starting with crypto, it plans to expand to sports, weather, and more.
+It uses Supra Oracle for real-time token prices, allowing users to predict onchain price events and earn rewards. 
+
+Deployed on Neo X Mainnet : 0xBF11e8F7A25458EC8fa16be04dc68d36671D0e0A
+- https://xexplorer.neo.org/address/0xBF11e8F7A25458EC8fa16be04dc68d36671D0e0A?tab=txs
 
 ## Key Feature
 
 #### **1. Telegram Access**  
-- **Seamless Integration**: SuperTell operates as a mini-app within Telegram, eliminating the need for additional downloads or installations.  
+- **Seamless Integration**: SuperTell operates as a mini-app within Telegram for rapid growth and a telegram bot for quant prediction trading.
 - **User-Friendly Interface**: The platform is designed for an intuitive experience, enabling users to easily place predictions, view results, and claim rewards in a few simple steps.  
 - **Broad Accessibility**: Telegram's global reach ensures that SuperTell can be accessed by a wide audience, enhancing user adoption.
 
@@ -38,10 +40,10 @@ Starting with crypto, it plans to expand to sports, weather, and more.
 #### **3. Diverse Prediction Markets**  
 - **Crypto Focus**: Initially focuses on cryptocurrency price predictions, catering to the rapidly growing crypto audience.  
 - **Future Expansion**: Plans to broaden the scope to include other prediction categories, such as:  
-  - **Sports**: Predict match outcomes or player performances.  
-  - **Weather**: Bet on weather conditions or events.  
-  - **Global Trends**: Expand to various topics like entertainment, politics, and more.  
-- **Inclusive Platform**: Aims to attract diverse users by offering a wide range of prediction opportunities.
+  - NEO, GAS, ETH and other tokens price prediction
+  - Variable Epochs of 5 minutes, 1 hour etc
+  - Social profiles and leaderboard
+- **Inclusive Platform**: Aims to attract diverse users by offering a wide range of prediction opportunities and be the superapp of all defi gamified platform.
 
 ## Business Model
 
@@ -49,5 +51,4 @@ Starting with crypto, it plans to expand to sports, weather, and more.
 - Launch a native token for staking, governance, and enhanced predictions.
 
 **2. Platform Fees:** 
-- When users place a bet, they pay a certain amount of platform fee.
 - If users make a profit from their bets, they pay a 2% commission on the profits.
